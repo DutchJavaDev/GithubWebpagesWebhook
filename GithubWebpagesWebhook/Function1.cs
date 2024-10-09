@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Azure.Storage.Blobs;
 using System;
 using Azure.Core;
+using System.Collections.Concurrent;
 
 namespace GithubWebpagesWebhook
 {
@@ -19,9 +20,14 @@ namespace GithubWebpagesWebhook
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
 
-      var client = new BlobClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"),"html-templates","index.html");
+      var repositories = await GithubClientWrapper.GetRepositoriesForAccessTokenAsync();
 
-      var content = await client.DownloadContentAsync();
+      var projectOrderDictionary = new ConcurrentDictionary<int, object>();
+
+      // last step
+      var blobClient = new BlobClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"),"html-templates","index.html");
+
+      var content = await blobClient.DownloadContentAsync();
 
       return new ContentResult() 
       {
