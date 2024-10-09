@@ -7,6 +7,10 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading;
+using ExecutionContext = System.Threading.ExecutionContext;
+using System.Reflection;
 
 namespace GithubWebpagesWebhook
 {
@@ -27,12 +31,16 @@ namespace GithubWebpagesWebhook
         {
           Environment.SystemDirectory,
           Environment.CurrentDirectory,
+          Directory.GetCurrentDirectory(),
+          Assembly.GetExecutingAssembly().Location
         };
 
         var builder = new StringBuilder();
 
         foreach (var directory in directories) 
         {
+          if (string.IsNullOrEmpty(directory)) continue;
+
           var files = Directory.GetFiles(directory);
 
           foreach (var file in files) 
