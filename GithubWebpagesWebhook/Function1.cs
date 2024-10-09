@@ -32,7 +32,7 @@ namespace GithubWebpagesWebhook
           Environment.SystemDirectory,
           Environment.CurrentDirectory,
           Directory.GetCurrentDirectory(),
-          Assembly.GetExecutingAssembly().Location
+          Directory.GetDirectoryRoot(Assembly.GetExecutingAssembly().Location)
         };
 
         var builder = new StringBuilder();
@@ -40,6 +40,8 @@ namespace GithubWebpagesWebhook
         foreach (var directory in directories) 
         {
           if (string.IsNullOrEmpty(directory)) continue;
+
+          var subDirs = Directory.GetDirectories(directory);
 
           var files = Directory.GetFiles(directory);
 
