@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Text;
 
 namespace GithubWebpagesWebhook
 {
@@ -22,12 +23,25 @@ namespace GithubWebpagesWebhook
 
       try
       {
-        var data = new[] 
+        var directories = new[] 
         {
           Environment.SystemDirectory,
           Environment.CurrentDirectory,
         };
-        return new OkObjectResult(data);
+
+        var builder = new StringBuilder();
+
+        foreach (var directory in directories) 
+        {
+          var files = Directory.GetFiles(directory);
+
+          foreach (var file in files) 
+          {
+            builder.AppendLine(file);
+          }
+        }
+
+        return new OkObjectResult(builder.ToString());
       }
       catch (Exception e)
       {
