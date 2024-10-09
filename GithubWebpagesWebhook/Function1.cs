@@ -19,10 +19,17 @@ namespace GithubWebpagesWebhook
       log.LogInformation("C# HTTP trigger function processed a request.");
 
       //var page = await File.ReadAllTextAsync("PageGenerator/index.html");
-      
-      var files = Directory.GetFiles(Directory.GetCurrentDirectory());
 
-      return new OkObjectResult(files);
+      try
+      {
+        var files = Directory.GetFiles(Directory.GetCurrentDirectory());
+
+        return new OkObjectResult(files);
+      }
+      catch (Exception e)
+      {
+        return new OkObjectResult(e.ToString());
+      }
     }
   }
 }
