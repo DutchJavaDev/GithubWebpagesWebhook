@@ -22,7 +22,12 @@ namespace GithubWebpagesWebhook
 
       try
       {
-        return new OkObjectResult(Directory.GetCurrentDirectory());
+        var data = new[] 
+        {
+          Environment.SystemDirectory,
+          Environment.CurrentDirectory,
+        };
+        return new OkObjectResult(data);
       }
       catch (Exception e)
       {
