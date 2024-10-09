@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Azure.Storage.Blobs;
 using System;
+using Azure.Core;
 
 namespace GithubWebpagesWebhook
 {
@@ -25,7 +26,7 @@ namespace GithubWebpagesWebhook
       return new ContentResult() 
       {
         Content = content.Value.Content.ToString(),
-        ContentType = "document",
+        ContentType = "text/html",
         StatusCode = 200,
       };
     }
