@@ -22,9 +22,7 @@ namespace GithubWebpagesWebhook
 
       try
       {
-        var files = Directory.GetFiles(Directory.GetCurrentDirectory());
-
-        return new OkObjectResult(files);
+        return new OkObjectResult(Directory.GetCurrentDirectory());
       }
       catch (Exception e)
       {
