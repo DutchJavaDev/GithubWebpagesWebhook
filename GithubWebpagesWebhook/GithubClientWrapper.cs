@@ -20,6 +20,8 @@ namespace GithubWebpagesWebhook
       };
     }
 
+    public static string ClientLogin { get { return _clientLogin; } }
+
     public static async Task<IReadOnlyList<Repository>> GetRepositoriesForAccessTokenAsync(bool privateReposity = false, bool forkedRepository = false)
     {
       var repositories = await _client.Repository.GetAllForCurrent(new RepositoryRequest 
@@ -39,6 +41,15 @@ namespace GithubWebpagesWebhook
     public static async Task<IReadOnlyList<RepositoryLanguage>> GetRepositoryLanguagesAsync(string repositoryName)
     {
       return await _client.Repository.GetAllLanguages(_clientLogin, repositoryName);
+    }
+
+    public static async Task<GitHubCommit> GetGitHubCommitAsync(string repositoryName, string branchName)
+    {
+      var branch = await _client.Git.Reference.Get(_clientLogin, repositoryName, $"heads/{branchName}");
+
+      var commitMessage = await _client.Repository.Commit.Get(_clientLogin, repositoryName, branch.Object.Sha);
+
+      return commitMessage;
     }
   }
 }
