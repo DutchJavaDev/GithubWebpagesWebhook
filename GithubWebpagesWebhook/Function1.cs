@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Azure.Storage.Blobs;
 using System;
 using Azure.Core;
+using System.Collections.Concurrent;
+using System.IO;
 
 namespace GithubWebpagesWebhook
 {
@@ -19,16 +21,30 @@ namespace GithubWebpagesWebhook
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
 
-      var client = new BlobClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"),"html-templates","index.html");
-
-      var content = await client.DownloadContentAsync();
-
-      return new ContentResult() 
+      try
       {
-        Content = content.Value.Content.ToString(),
-        ContentType = "text/html",
-        StatusCode = 200,
-      };
+        var blobClient = new BlobClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), "html-templates", "index.html");
+
+        var content = await blobClient.DownloadContentAsync();
+
+        var projects = await ProjectDivGenerator.GenerateProjectDivsAsync();
+
+        var htmlTemplate = content.Value.Content.ToString()
+          .Replace("[user-name]", GithubClientWrapper.ClientLogin)
+          .Replace("[page-content]", projects)
+          .Replace("[last-update]", DateTime.Now.ToLongDateString());
+
+        return new ContentResult()
+        {
+          Content = htmlTemplate,
+          ContentType = "text/html",
+          StatusCode = 200,
+        };
+      }
+      catch (Exception e)
+      {
+        return new OkObjectResult(e);
+      }
     }
   }
 }

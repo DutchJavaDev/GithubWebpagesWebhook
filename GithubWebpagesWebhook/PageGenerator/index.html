@@ -25,7 +25,19 @@
       margin: 0 auto;
       display: grid;
       gap: 20px;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
+    }
+    /* Responsive design for tablets and medium screens */
+    @media (max-width: 1024px) {
+      .content {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+      }
+    }
+    /* Responsive design for small screens */
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: repeat(1, 1fr); /* 1 card per row */
+      }
     }
 
     /* Card styles */
@@ -35,44 +47,84 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 20px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      overflow: hidden; /* Prevents text from spilling */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
+    /* Dark mode card background */
     body.dark-mode .card {
       background-color: #3e4c59;
     }
 
+    /* Card hover effect */
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
+    /* Title */
     .card-title {
       font-size: 1.2rem;
-      margin-bottom: 10px;
+      margin-bottom: 2px;
       color: #1f2933;
     }
 
+    /* Dark mode title color */
     body.dark-mode .card-title {
       color: #f4f7fc;
     }
 
+    /* Description */
     .card-description {
       font-size: 0.9rem;
       color: #6b7280;
-      margin: 10px 0;
+      margin-bottom: 3px;
+      line-height: 1.4; /* Improves readability */
+      white-space: normal;
     }
 
+    /* Dark mode description color */
     body.dark-mode .card-description {
       color: #d1d5db;
     }
 
+    /* Languages list */
     .card-languages {
       font-size: 0.9rem;
-      margin: 10px 0;
+      margin-bottom: 1px;
     }
 
-    body.dark-mode .card-languages {
+    /* Last commit message */
+    .card-last-commit {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 1px;
+    }
+
+    /* Dark mode last commit message color */
+    body.dark-mode .card-last-commit {
       color: #d1d5db;
+    }
+
+    /* Link to GitHub */
+    .card-link {
+      display: inline-block;
+      margin-top: auto;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Dark mode link color */
+    body.dark-mode .card-link {
+      color: #60a5fa;
+    }
+
+    .card-title, .card-description, .card-languages, .card-last-commit {
+      overflow: hidden;
+      white-space: normal !important; /* Allow text to wrap, prevent single-line overflow */
     }
 
     .language {
@@ -80,95 +132,110 @@
       padding: 2px 8px;
       border-radius: 4px;
       font-size: 0.9rem;
-      margin: 5px; /* Updated to margin: 5px */
+      margin: 2px; /* Updated to margin: 5px */
       color: white; /* Text color for better contrast */
     }
 
-      /* Language colors */
-      .language.js {
-        background-color: #f7df1e;
-      }
-      /* JavaScript */
-      .language.html {
-        background-color: #e34c26;
-      }
-      /* HTML */
-      .language.css {
-        background-color: #1572b6;
-      }
-      /* CSS */
-      .language.java {
-        background-color: #b07219;
-      }
-      /* Java */
-      .language.python {
-        background-color: #3572A5;
-      }
-      /* Python */
-      .language.php {
-        background-color: #4F5B93;
-      }
-      /* PHP */
-      .language.ruby {
-        background-color: #701516;
-      }
-      /* Ruby */
-      .language.swift {
-        background-color: #ff6148;
-      }
-      /* Swift */
-      .language.csharp {
-        background-color: #68217a;
-      }
-      /* C# */
-      .language.c {
-        background-color: #555555;
-      }
-      /* C */
-      .language.cpp {
-        background-color: #f34b7d;
-      }
-      /* C++ */
-      .language.go {
-        background-color: #00add8;
-      }
-      /* Go */
-      .language.kotlin {
-        background-color: #A97B1B;
-      }
-      /* Kotlin */
-      .language.r {
-        background-color: #276DC3;
-      }
-      /* R */
-      .language.scala {
-        background-color: #DC322F;
-      }
-      /* Scala */
-      .language.shell {
-        background-color: #89e051;
-      }
-      /* Shell */
-      .language.typescript {
-        background-color: #007acc;
-      }
-      /* TypeScript */
-      .language.elixir {
-        background-color: #6e4f2b;
-      }
-      /* Elixir */
-      .language.erlang {
-        background-color: #B83998;
-      }
-      /* Erlang */
-      .language.haskell {
-        background-color: #5e5086;
-      }
-      /* Haskell */
-      .language.dart {
-        background-color: #00BFFF;
-      }
+    /* Language colors */
+    .language-lua {
+      background-color: #000080;
+    }
+    .language-js {
+      background-color: #a19112;
+    }
+    /* JavaScript */
+    .language-html {
+      background-color: #e34c26;
+    }
+    /* HTML */
+    .language-css {
+      background-color: #1572b6;
+    }
+    /* CSS */
+    .language-java {
+      background-color: #b07219;
+    }
+    /* Java */
+    .language-python {
+      background-color: #3572A5;
+    }
+    /* Python */
+    .language-php {
+      background-color: #4F5B93;
+    }
+    /* PHP */
+    .language-ruby {
+      background-color: #701516;
+    }
+    /* Ruby */
+    .language-swift {
+      background-color: #ff6148;
+    }
+    /* Swift */
+    .language-csharp {
+      background-color: #68217a;
+    }
+    /* C# */
+    .language-c {
+      background-color: #555555;
+    }
+    /* C */
+    .language-cpp {
+      background-color: #f34b7d;
+    }
+    /* C++ */
+    .language-go {
+      background-color: #00add8;
+    }
+    /* Go */
+    .language-kotlin {
+      background-color: #A97B1B;
+    }
+    /* Kotlin */
+    .language-r {
+      background-color: #276DC3;
+    }
+    /* R */
+    .language-scala {
+      background-color: #DC322F;
+    }
+    /* Scala */
+    .language-shell {
+      background-color: #89e051;
+    }
+    /* Shell */
+    .language-typescript {
+      background-color: #007acc;
+    }
+    /* TypeScript */
+    .language-elixir {
+      background-color: #6e4f2b;
+    }
+    /* Elixir */
+    .language-erlang {
+      background-color: #B83998;
+    }
+    /* Erlang */
+    .language-haskell {
+      background-color: #5e5086;
+    }
+    /* Haskell */
+    .language-dart {
+      background-color: #00BFFF;
+    }
     /* Dart */
+    .language-dockerfile {
+      background-color: #384d54
+    }
+    /* Docker */
+    .language-powershell {
+      background-color: #012456;
+    }
+    /* Powershell */
+    .language-rust {
+      background-color: #dea584;
+    }
+    /* Rust */
 
     .card-last-commit {
       font-size: 0.9rem;
@@ -185,6 +252,7 @@
       margin-top: 10px;
       color: #2563eb;
       text-decoration: none;
+      text-align: center;
     }
 
     body.dark-mode .card-link {
@@ -253,161 +321,21 @@
     }
   </style>
 </head>
-<body class="light-mode">
+<body class="light-mode" onload="setLastCommitMessage()">
   <header>
-    <h1>Supported Programming Languages</h1>
+    <h1>[user-name] Github Pages</h1>
+    <h3>Generated using <a target="_blank" href="https://github.com/DutchJavaDev/GithubWebpagesWebhook">GithubWebpagesWebhook</a></h3>
   </header>
 
-  <div class="content" id="repoList">
-    <!-- Static language cards -->
-    <div class="card">
-      <h3 class="card-title">JavaScript</h3>
-      <p class="card-description">A high-level, dynamic, untyped, and interpreted programming language.</p>
-      <p class="card-languages">Languages: <span class="language js">JavaScript</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/javascript" target="_blank">View on GitHub</a>
+  <main>
+    <div>
+    <h3 style="text-align:center">Last update [last-update]</h3>
     </div>
-    <div class="card">
-      <h3 class="card-title">HTML</h3>
-      <p class="card-description">The standard markup language for documents designed to be displayed in a web browser.</p>
-      <p class="card-languages">Languages: <span class="language html">HTML</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/html" target="_blank">View on GitHub</a>
+    <div class="content" id="repoList">
+      <!-- Static language cards -->
+      [page-content]
     </div>
-    <div class="card">
-      <h3 class="card-title">CSS</h3>
-      <p class="card-description">A style sheet language used for describing the presentation of a document written in HTML or XML.</p>
-      <p class="card-languages">Languages: <span class="language css">CSS</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/css" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Java</h3>
-      <p class="card-description">A high-level, class-based, object-oriented programming language that is designed to have as few implementation dependencies as possible.</p>
-      <p class="card-languages">Languages: <span class="language java">Java</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/java" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Python</h3>
-      <p class="card-description">A high-level programming language that is widely used for general-purpose programming.</p>
-      <p class="card-languages">Languages: <span class="language python">Python</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/python" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">PHP</h3>
-      <p class="card-description">A popular general-purpose scripting language that is especially suited to web development.</p>
-      <p class="card-languages">Languages: <span class="language php">PHP</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/php" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Ruby</h3>
-      <p class="card-description">A dynamic, open-source programming language with a focus on simplicity and productivity.</p>
-      <p class="card-languages">Languages: <span class="language ruby">Ruby</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/ruby" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Swift</h3>
-      <p class="card-description">A powerful and intuitive programming language for macOS, iOS, watchOS, and tvOS.</p>
-      <p class="card-languages">Languages: <span class="language swift">Swift</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/swift" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">C#</h3>
-      <p class="card-description">A modern, object-oriented programming language developed by Microsoft.</p>
-      <p class="card-languages">Languages: <span class="language csharp">C#</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/csharp" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">C</h3>
-      <p class="card-description">A general-purpose programming language that is extremely popular and widely used.</p>
-      <p class="card-languages">Languages: <span class="language c">C</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/c" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">C++</h3>
-      <p class="card-description">An extension of the C programming language with object-oriented features.</p>
-      <p class="card-languages">Languages: <span class="language cpp">C++</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/cpp" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Go</h3>
-      <p class="card-description">An open-source programming language that makes it easy to build simple, reliable, and efficient software.</p>
-      <p class="card-languages">Languages: <span class="language go">Go</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/go" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Kotlin</h3>
-      <p class="card-description">A statically typed programming language for modern multiplatform applications.</p>
-      <p class="card-languages">Languages: <span class="language kotlin">Kotlin</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/kotlin" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">R</h3>
-      <p class="card-description">A programming language and free software environment for statistical computing and graphics.</p>
-      <p class="card-languages">Languages: <span class="language r">R</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/r" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Scala</h3>
-      <p class="card-description">A general-purpose programming language providing support for functional programming and a strong static type system.</p>
-      <p class="card-languages">Languages: <span class="language scala">Scala</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/scala" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Shell</h3>
-      <p class="card-description">A command-line interface for interacting with the operating system.</p>
-      <p class="card-languages">Languages: <span class="language shell">Shell</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/shell" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">TypeScript</h3>
-      <p class="card-description">A strict syntactical superset of JavaScript and adds optional static typing to the language.</p>
-      <p class="card-languages">Languages: <span class="language typescript">TypeScript</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/typescript" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Elixir</h3>
-      <p class="card-description">A dynamic, functional language designed for building scalable and maintainable applications.</p>
-      <p class="card-languages">Languages: <span class="language elixir">Elixir</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/elixir" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Erlang</h3>
-      <p class="card-description">A programming language used to build massively scalable soft real-time systems with requirements on high availability.</p>
-      <p class="card-languages">Languages: <span class="language erlang">Erlang</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/erlang" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Haskell</h3>
-      <p class="card-description">A standardized, general-purpose purely functional programming language with non-strict semantics.</p>
-      <p class="card-languages">Languages: <span class="language haskell">Haskell</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/haskell" target="_blank">View on GitHub</a>
-    </div>
-    <div class="card">
-      <h3 class="card-title">Dart</h3>
-      <p class="card-description">A client-optimized language for fast apps on any platform.</p>
-      <p class="card-languages">Languages: <span class="language dart">Dart</span></p>
-      <p class="card-last-commit">Last Commit: Example commit message.</p>
-      <a class="card-link" href="https://github.com/topics/dart" target="_blank">View on GitHub</a>
-    </div>
-  </div>
+  </main>
 
   <div class="mode-toggle-container">
     <div class="toggle-switch" id="toggleButton" aria-label="Toggle light/dark mode">
@@ -416,14 +344,43 @@
   </div>
 
   <script>
-        const body = document.body;
-        const toggleButton = document.getElementById('toggleButton');
+    const body = document.body;
+    const toggleButton = document.getElementById('toggleButton');
+    // Toggle light/dark mode
+    toggleButton.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      body.classList.toggle('light-mode');
+    });
 
-        // Toggle light/dark mode
-        toggleButton.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            body.classList.toggle('light-mode');
-        });
+    function setLastCommitMessage() {
+      var messages = document.querySelectorAll('p[data-commit-message]')
+      messages.forEach(i => {
+        var commitMessage = i.dataset['commitMessage']
+
+        var commitDate = Date.parse(i.dataset['commitDate'])
+
+        if (!commitDate || !commitMessage) {
+          i.innerHTML = `The force is broken, contact the developer`
+          return;
+        }
+
+        var now = new Date()
+
+        var days = Math.round((now - commitDate) / (1000 * 60 * 60 * 24))
+
+        if (days < 0) {
+          i.innerHTML = `${commitMessage} (less than 1 day ago)`
+        }
+        else {
+          if (days == 1) {
+            i.innerHTML = `${commitMessage} (1 day ago)`
+          }
+          else {
+            i.innerHTML = `${commitMessage} (${days} days ago)`
+          }
+        }
+      })
+    }
   </script>
 </body>
 </html>
