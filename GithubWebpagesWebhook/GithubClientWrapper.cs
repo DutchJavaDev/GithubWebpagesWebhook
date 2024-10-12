@@ -35,7 +35,7 @@ namespace GithubWebpagesWebhook
       var user = await _client.User.Current();
       _clientLogin = user.Login;
 
-      return repositories.Where(i => i.Private == privateReposity && i.Fork == forkedRepository).ToList();
+      return repositories.Where(i => i.Private == privateReposity && i.Fork == forkedRepository && i.Archived == false).ToList();
     }
 
     public static async Task<IReadOnlyList<RepositoryLanguage>> GetRepositoryLanguagesAsync(string repositoryName)
