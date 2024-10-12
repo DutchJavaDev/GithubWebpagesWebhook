@@ -25,6 +25,8 @@ namespace GithubWebpagesWebhook
       };
       Directory.CreateDirectory(LocalDirectory);
 
+      var user = _client.User.Current().Result;
+      _clientLogin = user.Login;
     }
 
     public static string ClientLogin { get { return _clientLogin; } }
@@ -37,10 +39,6 @@ namespace GithubWebpagesWebhook
         Sort = RepositorySort.Pushed,
         Direction = SortDirection.Descending
       });
-
-      // This should be moved.....
-      var user = await _client.User.Current();
-      _clientLogin = user.Login;
 
       return repositories.Where(i => i.Private == privateReposity && i.Fork == forkedRepository && i.Archived == false).ToList();
     }
