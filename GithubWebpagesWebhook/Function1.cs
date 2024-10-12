@@ -21,30 +21,32 @@ namespace GithubWebpagesWebhook
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
 
-      try
-      {
-        var blobClient = new BlobClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), "html-templates", "index.html");
+      return await GithubClientWrapper.CloneTest();
 
-        var content = await blobClient.DownloadContentAsync();
+      //try
+      //{
+      //  var blobClient = new BlobClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), "html-templates", "index.html");
 
-        var projects = await ProjectDivGenerator.GenerateProjectDivsAsync();
+      //  var content = await blobClient.DownloadContentAsync();
 
-        var htmlTemplate = content.Value.Content.ToString()
-          .Replace("[user-name]", GithubClientWrapper.ClientLogin)
-          .Replace("[page-content]", projects)
-          .Replace("[last-update]", DateTime.Now.ToLongDateString());
+      //  var projects = await ProjectDivGenerator.GenerateProjectDivsAsync();
 
-        return new ContentResult()
-        {
-          Content = htmlTemplate,
-          ContentType = "text/html",
-          StatusCode = 200,
-        };
-      }
-      catch (Exception e)
-      {
-        return new OkObjectResult(e);
-      }
+      //  var htmlTemplate = content.Value.Content.ToString()
+      //    .Replace("[user-name]", GithubClientWrapper.ClientLogin)
+      //    .Replace("[page-content]", projects)
+      //    .Replace("[last-update]", DateTime.Now.ToLongDateString());
+
+      //  return new ContentResult()
+      //  {
+      //    Content = htmlTemplate,
+      //    ContentType = "text/html",
+      //    StatusCode = 200,
+      //  };
+      //}
+      //catch (Exception e)
+      //{
+      //  return new OkObjectResult(e);
+      //}
     }
   }
 }
