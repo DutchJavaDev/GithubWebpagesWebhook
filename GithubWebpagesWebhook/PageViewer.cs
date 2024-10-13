@@ -1,12 +1,11 @@
-﻿#if !DEBUG
-using Azure.Storage.Blobs;
-#endif
+﻿using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -54,18 +53,21 @@ namespace GithubWebpagesWebhook
 
     public static async Task<string> GetTemplateFileAsync()
     {
-#if DEBUG
-      return await File.ReadAllTextAsync("PageGenerator/index.html");
-#else
-      var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+      if (Debugger.IsAttached)
+      {
+        return await File.ReadAllTextAsync("PageGenerator/index.html");
+      }
+      else
+      {
+        var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
 
-      // TODO read template location from env/dynamic way
-      var blobClient = new BlobClient(connectionString, "html-templates", "index.html");
+        // TODO read template location from env/dynamic way
+        var blobClient = new BlobClient(connectionString, "html-templates", "index.html");
 
-      var content = await blobClient.DownloadContentAsync();
+        var content = await blobClient.DownloadContentAsync();
 
-      return content.Value.Content.ToString();
-#endif
+        return content.Value.Content.ToString();
+      }
     }
   }
 }
