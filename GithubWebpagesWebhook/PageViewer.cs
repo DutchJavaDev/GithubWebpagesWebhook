@@ -28,7 +28,7 @@ namespace GithubWebpagesWebhook
         return new ContentResult()
         {
           Content = page,
-          ContentType = "document",
+          ContentType = "text/html",
           StatusCode = 200,
         };
       }
