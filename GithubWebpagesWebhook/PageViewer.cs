@@ -1,4 +1,6 @@
-﻿using Azure.Storage.Blobs;
+﻿#if !DEBUG
+using Azure.Storage.Blobs;
+#endif
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
