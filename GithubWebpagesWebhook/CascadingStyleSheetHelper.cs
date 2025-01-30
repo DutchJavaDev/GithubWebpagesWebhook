@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GithubWebpagesWebhook
 {
   public static class CascadingStyleSheetHelper
   {
-    static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string>()
+    private static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string>()
 {
             { "C#", "language-csharp" },
             { "JavaScript", "language-js" },
@@ -48,9 +44,9 @@ namespace GithubWebpagesWebhook
 
     public static bool TryGetLanguageCss(string key, out string value)
     {
-      if (SupportedLanguages.ContainsKey(key))
+      if (SupportedLanguages.TryGetValue(key, out var language))
       {
-        value = SupportedLanguages[key];
+        value = language;
         return true;
       }
 
