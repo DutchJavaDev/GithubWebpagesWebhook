@@ -28,7 +28,7 @@ namespace GithubWebpagesWebhook
         // Generate index html
         var webPage = await GenerateWebpageAsync();
 
-        // Copy webpages repo from github, get index.html file path
+        // Copy webpages repo from GitHub, get index.html file path
         var tempLocalDirectory = Path.Combine(Path.GetTempPath(), "temp-clone-folder");
 
         Directory.CreateDirectory(tempLocalDirectory);
@@ -36,7 +36,7 @@ namespace GithubWebpagesWebhook
         var indexFilePath = await CloneWebPageRepositoryAsync(tempLocalDirectory);
 
         // Update repo with new index.html
-        File.WriteAllText(indexFilePath, webPage);
+        await File.WriteAllTextAsync(indexFilePath, webPage);
 
         // Push changes
         await PushChangesAsync(tempLocalDirectory);
@@ -52,7 +52,7 @@ namespace GithubWebpagesWebhook
       }
     }
 
-    public static async Task<string> GenerateWebpageAsync()
+    private static async Task<string> GenerateWebpageAsync()
     {
       var template = await GetTemplateFileAsync();
 
@@ -66,7 +66,7 @@ namespace GithubWebpagesWebhook
       return htmlTemplate;
     }
 
-    public static async Task<string> GetTemplateFileAsync()
+    private static async Task<string> GetTemplateFileAsync()
     {
 #if DEBUG
       return await File.ReadAllTextAsync("PageGenerator/index.html");
@@ -82,35 +82,33 @@ namespace GithubWebpagesWebhook
 #endif
     }
 
-    public static async Task<string> CloneWebPageRepositoryAsync(string tempFolder)
+    private static async Task<string> CloneWebPageRepositoryAsync(string tempFolder)
     {
       var client = new HttpClient();
 
       var contents = await GithubClientWrapper.GetAllRepositoryContentAsync();
 
-      string indexPath = string.Empty;
+      var indexPath = string.Empty;
 
       foreach (var content in contents)
       {
-        if (content.Type ==  Octokit.ContentType.File)
+        if (content.Type != ContentType.File) continue;
+        var fileBytes = await client.GetStringAsync(content.DownloadUrl);
+
+        var path = Path.Combine(tempFolder, content.Name);
+
+        await File.WriteAllTextAsync(path, fileBytes);
+
+        if (content.Name.Contains("index.html"))
         {
-          var fileBytes = await client.GetStringAsync(content.DownloadUrl);
-
-          var path = Path.Combine(tempFolder, content.Name);
-
-          File.WriteAllText(path, fileBytes);
-
-          if (content.Name.Contains("index.html"))
-          {
-            indexPath = path;
-          }
+          indexPath = path;
         }
       }
 
       return indexPath;
     }
 
-    public static async Task PushChangesAsync(string tempFolder)
+    private static async Task PushChangesAsync(string tempFolder)
     {
       // Get the latest commit on the main branch
       var baseRef = await GithubClientWrapper.GetReferenceAsync();
@@ -120,7 +118,7 @@ namespace GithubWebpagesWebhook
       foreach (var file in Directory.GetFiles(tempFolder))
       {
         var fileName = Path.GetFileName(file);
-        var content = File.ReadAllText(file);
+        var content = await File.ReadAllTextAsync(file);
 
         // Create a new tree entry for each file
         treeBuilder.Tree.Add(new NewTreeItem
@@ -132,7 +130,7 @@ namespace GithubWebpagesWebhook
         });
       }
 
-      // Finilaize the changes and push
+      // Finalize the changes and push
       var newTree = await GithubClientWrapper.CreateTreeResponseAsync(treeBuilder);
 
       var commit = await GithubClientWrapper.CreateCommitAsync(newTree, baseRef);
