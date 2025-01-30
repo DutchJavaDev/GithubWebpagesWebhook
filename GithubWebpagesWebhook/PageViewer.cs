@@ -38,7 +38,7 @@ namespace GithubWebpagesWebhook
       }
     }
 
-    public static async Task<string> GenerateWebpageAsync()
+    private static async Task<string> GenerateWebpageAsync()
     {
       var template = await GetTemplateFileAsync();
 
@@ -52,7 +52,7 @@ namespace GithubWebpagesWebhook
       return htmlTemplate;
     }
 
-    public static async Task<string> GetTemplateFileAsync()
+    private static async Task<string> GetTemplateFileAsync()
     {
 #if DEBUG
       return await File.ReadAllTextAsync("PageGenerator/index.html");
